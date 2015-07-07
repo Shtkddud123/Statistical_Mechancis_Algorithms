@@ -48,3 +48,50 @@ def markov_pi(num_trials, delta):
             num_hits += 1
 
     return float(num_hits) / num_trials * 4
+
+
+def direct_buffon_needle(n_trials, a, b):
+    """
+    This Function uses Monte Carlo direct sampling and buffon's needle problem
+    to apprixmate the value of Pi.
+
+    INPUTS:
+        num_trials: The number of positions to be sampled
+        a: lengh of the needle
+        b: width of the floorboards
+
+    OUTPUTS: The approximation of Pi
+    """
+    n_hits = 0
+    for i in xrange(n_trials):
+        n_hits += buffon_needle_patch(a, b)
+
+    mean = float(n_hits)/n_trials
+    return (a/b)*(2/mean)
+
+
+
+def buffon_needle_patch(a, b):
+    """
+    Helper function that determines a single hit of buffon's needle.
+
+    INPUTS:
+        a: lengh of the needle
+        b: width of the floorboards
+
+    OUTPUTS: If there was a hit
+    """
+    x_center = np.random.uniform(0, b/2)
+    upsilon = 10.0
+    while upsilon > 1.0:
+        del_x = np.random.uniform(0, 1)
+        del_y = np.random.uniform(0, 1)
+        upsilon = np.sqrt(del_x**2 + del_y**2)
+
+    x_tip = x_center - (a/2) * del_x/upsilon
+    if x_tip < 0:
+        hit = 1
+    else:
+        hit = 0
+
+    return hit

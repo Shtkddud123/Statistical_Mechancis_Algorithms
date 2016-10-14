@@ -1,3 +1,4 @@
+# forked
 import numpy as np
 
 def reject_sampling_finite(probabilites):
